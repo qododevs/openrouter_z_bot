@@ -1,0 +1,23 @@
+# Основные зависимости
+aiogram==3.4.1
+python-dotenv==1.0.1
+openai>=1.30.0
+psycopg2-binary==2.9.9
+
+# LangChain и экосистема
+langchain==0.1.16
+langchain-community==0.0.33
+
+# Векторная база данных
+chromadb==0.4.22
+
+# Работа с документами
+pypdf==4.1.0
+watchdog==3.0.0
+
+# --- ML-стек ---
+torch==2.2.1
+torchvision==0.17.1
+torchaudio==2.2.1
+sentence-transformers==2.2.2
+huggingface-hub==0.20.3

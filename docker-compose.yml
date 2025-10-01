@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  bot:
+    build: .
+    restart: always
+    environment:
+      # Переменные окружения передаются из файла .env
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - DATABASE_URL=postgresql://postgres:password@db:5432/cosmetic_bot
+      - SYSTEM_PROMPT=${SYSTEM_PROMPT}
+    depends_on:
+      - db
+    volumes:
+      # Монтируем папку с документами с хост-машины в контейнер
+      - ./documents:/app/documents
+      # Монтируем том для хранения ChromaDB
+      - chroma_db_storage:/app/chroma_db
+
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=cosmetic_bot
+    volumes:
+      # Монтируем том для хранения данных PostgreSQL
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      # Опционально: открываем порт для доступа к БД с хост-машины
+      - "5432:5432"
+
+# Определяем именованные тома для постоянного хранения данных
+volumes:
+  postgres_data:
+  chroma_db_storage:
